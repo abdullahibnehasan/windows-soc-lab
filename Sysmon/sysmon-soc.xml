@@ -1,0 +1,62 @@
+<Sysmon schemaversion="4.90">
+
+  <HashAlgorithms>SHA256</HashAlgorithms>
+
+  <EventFiltering>
+
+    <RuleGroup name="SOC Process Creation" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Image condition="end with">powershell.exe</Image>
+        <Image condition="end with">cmd.exe</Image>
+        <Image condition="end with">wscript.exe</Image>
+        <Image condition="end with">cscript.exe</Image>
+        <Image condition="end with">mshta.exe</Image>
+        <Image condition="end with">rundll32.exe</Image>
+        <Image condition="end with">regsvr32.exe</Image>
+        <Image condition="end with">certutil.exe</Image>
+      </ProcessCreate>
+    </RuleGroup>
+
+    <RuleGroup name="SOC Network Connections" groupRelation="or">
+      <NetworkConnect onmatch="include">
+        <Image condition="end with">powershell.exe</Image>
+        <Image condition="end with">cmd.exe</Image>
+        <Image condition="end with">wscript.exe</Image>
+        <Image condition="end with">cscript.exe</Image>
+        <Image condition="end with">mshta.exe</Image>
+        <Image condition="end with">rundll32.exe</Image>
+        <Image condition="end with">regsvr32.exe</Image>
+      </NetworkConnect>
+    </RuleGroup>
+
+    <RuleGroup name="SOC Process Termination" groupRelation="or">
+      <ProcessTerminate onmatch="include">
+        <Image condition="end with">powershell.exe</Image>
+        <Image condition="end with">cmd.exe</Image>
+        <Image condition="end with">wscript.exe</Image>
+        <Image condition="end with">cscript.exe</Image>
+        <Image condition="end with">mshta.exe</Image>
+      </ProcessTerminate>
+    </RuleGroup>
+
+    <RuleGroup name="SOC File Creation" groupRelation="or">
+      <FileCreate onmatch="include">
+        <TargetFilename condition="contains">\Startup\</TargetFilename>
+        <TargetFilename condition="contains">\Temp\</TargetFilename>
+        <TargetFilename condition="contains">\AppData\</TargetFilename>
+      </FileCreate>
+    </RuleGroup>
+
+    <RuleGroup name="SOC DNS Queries" groupRelation="or">
+      <DnsQuery onmatch="include">
+        <Image condition="end with">powershell.exe</Image>
+        <Image condition="end with">cmd.exe</Image>
+        <Image condition="end with">wscript.exe</Image>
+        <Image condition="end with">cscript.exe</Image>
+        <Image condition="end with">mshta.exe</Image>
+      </DnsQuery>
+    </RuleGroup>
+
+  </EventFiltering>
+
+</Sysmon>
